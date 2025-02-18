@@ -1,70 +1,66 @@
-(function() {
-    const _0x123abc = async function(_0x789url) {
-        const _0xabcApiKey = 'AIzaSyDkaLzE7iExkNE97MWid7-cVb4cZvMlCas';
-        try {
-            const _0x123res = await fetch(`https://www.googleapis.com/blogger/v3/blogs/byurl?url=${_0x789url}&key=${_0xabcApiKey}`);
-            if (!_0x123res.ok) throw new Error('Invalid blog URL.');
-            const _0x789data = await _0x123res.json();
-            const _0x456blogId = _0x789data.id;
-            const _0x456posts = await fetch(`https://www.googleapis.com/blogger/v3/blogs/${_0x456blogId}/posts?key=${_0xabcApiKey}`);
-            if (!_0x456posts.ok) throw new Error('Failed to fetch posts.');
-            return (await _0x456posts.json()).items;
-        } catch (_0xerror) {
-            throw new Error(_0xerror.message);
-        }
-    };
+const API_KEY = 'AIzaSyDkaLzE7iExkNE97MWid7-cVb4cZvMlCas';
+let posts = [];
 
-    const _0xrenderPosts = async function() {
-        const _0xblogUrl = document.getElementById('blogUrl').value;
-        const _0xpostListDiv = document.getElementById('postList');
-        const _0xoutputDiv = document.getElementById('output');
-        try {
-            _0xpostListDiv.innerHTML = '<p>Loading posts...</p>';
-            const _0xposts = await _0x123abc(_0xblogUrl);
-            _0xpostListDiv.innerHTML = _0xposts.map((_0xpost) => `
-                <div>
-                    <input type="checkbox" id="${_0xpost.id}" value="${_0xpost.id}">
-                    <label for="${_0xpost.id}">${_0xpost.title}</label>
-                </div>
-            `).join('');
-        } catch (_0xerror) {
-            _0xpostListDiv.innerHTML = '';
-            _0xoutputDiv.innerHTML = `<p>${_0xerror.message}</p>`;
-        }
-    };
+// Fetch posts from Blogger API
+async function fetchPosts() {
+    const blogUrl = document.getElementById("blogUrl").value;
+    const outputDiv = document.getElementById("output");
+    const postListDiv = document.getElementById("postList");
+    const backupButton = document.getElementById("backupButton");
 
-    const _0xbackupSelected = async function() {
-        const _0xselectedPosts = Array.from(document.querySelectorAll('#postList input:checked')).map((_0xcheckbox) => _0xcheckbox.value);
-        if (_0xselectedPosts.length === 0) {
-            alert('Please select at least one post.');
-            return;
-        }
-        const _0xblogUrl = document.getElementById('blogUrl').value;
-        try {
-            const _0xposts = await _0x123abc(_0xblogUrl);
-            const _0xzip = new JSZip();
-            for (let _0xpostId of _0xselectedPosts) {
-                const _0xpost = _0xposts.find((_0xpost) => _0xpost.id === _0xpostId);
-                if (_0xpost) {
-                    _0xzip.file(`${_0xpost.title}.html`, _0xpost.content || '');
-                }
-            }
-            const _0xzipBlob = await _0xzip.generateAsync({ type: 'blob' });
-            saveAs(_0xzipBlob, 'blogger_backup.zip');
-        } catch (_0xerror) {
-            console.error('Error:', _0xerror.message);
-        }
-    };
+    if (!/^https?:\/\/[a-zA-Z0-9-]+\.blogspot\.com/.test(blogUrl)) {
+        outputDiv.innerHTML = "Invalid Blogger URL. Please enter a valid URL.";
+        return;
+    }
 
-    window.validateAndFetchPosts = function() {
-        const _0xblogUrl = document.getElementById('blogUrl').value;
-        const _0xvalid = /^https?:\/\/([a-zA-Z0-9_-]+)\.blogspot\.com(\/)?$/.test(_0xblogUrl);
-        if (!_0xvalid) {
-            document.getElementById('output').innerHTML = '<p>Invalid Blogger URL. Please enter a valid URL.</p>';
+    outputDiv.innerHTML = "Fetching posts...";
+    postListDiv.innerHTML = "";
+    backupButton.style.display = "none";
+
+    try {
+        // Fetch Blog ID
+        const blogResponse = await fetch(`https://www.googleapis.com/blogger/v3/blogs/byurl?url=${blogUrl}&key=${API_KEY}`);
+        if (!blogResponse.ok) throw new Error("Invalid Blogger URL");
+        const blogData = await blogResponse.json();
+
+        // Fetch Posts
+        const postsResponse = await fetch(`https://www.googleapis.com/blogger/v3/blogs/${blogData.id}/posts?key=${API_KEY}`);
+        if (!postsResponse.ok) throw new Error("Failed to fetch posts");
+        const postData = await postsResponse.json();
+
+        if (postData.items && postData.items.length > 0) {
+            posts = postData.items;
+            postListDiv.innerHTML = posts
+                .map(post => `<div><input type="checkbox" id="${post.id}" value="${post.id}"><label for="${post.id}">${post.title}</label></div>`)
+                .join("");
+            backupButton.style.display = "block";
+            outputDiv.innerHTML = "Select posts to back up.";
         } else {
-            _0xrenderPosts();
+            outputDiv.innerHTML = "No posts found on this blog.";
         }
-    };
+    } catch (error) {
+        console.error(error);
+        outputDiv.innerHTML = error.message;
+    }
+}
 
-    window.generateBackup = _0xbackupSelected;
-})();
+// Backup selected posts
+async function backupPosts() {
+    const selectedPosts = Array.from(document.querySelectorAll('#postList input:checked')).map(cb => cb.value);
+
+    if (selectedPosts.length === 0) {
+        alert("Please select at least one post to back up.");
+        return;
+    }
+
+    const zip = new JSZip();
+    selectedPosts.forEach(postId => {
+        const post = posts.find(p => p.id === postId);
+        if (post) {
+            zip.file(`${post.title}.html`, post.content || "No content available");
+        }
+    });
+
+    const zipBlob = await zip.generateAsync({ type: "blob" });
+    saveAs(zipBlob, "blogger_backup.zip");
+}
