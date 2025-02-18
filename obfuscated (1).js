@@ -1,1 +1,70 @@
-(function(_0x480ff7,_0x43c6e1){const _0x53f958=_0x4d2d,_0x1a5477=_0x480ff7();while(!![]){try{const _0x1e7491=parseInt(_0x53f958(0x11b))/0x1*(parseInt(_0x53f958(0x11d))/0x2)+-parseInt(_0x53f958(0x11c))/0x3*(-parseInt(_0x53f958(0x136))/0x4)+-parseInt(_0x53f958(0x138))/0x5+parseInt(_0x53f958(0x118))/0x6*(parseInt(_0x53f958(0x113))/0x7)+-parseInt(_0x53f958(0x128))/0x8+parseInt(_0x53f958(0x11e))/0x9*(parseInt(_0x53f958(0x112))/0xa)+parseInt(_0x53f958(0x121))/0xb*(-parseInt(_0x53f958(0x126))/0xc);if(_0x1e7491===_0x43c6e1)break;else _0x1a5477['push'](_0x1a5477['shift']());}catch(_0x4f2965){_0x1a5477['push'](_0x1a5477['shift']());}}}(_0x189e,0xaf938));function _0x189e(){const _0x2096ca=['Blog\x20ID\x20fetched.\x20Fetching\x20posts...','untitled','content','1950iEkoUX','json','output','1FWGlIy','2218683PSucsw','541094EMmahU','180jKSfJJ','https://www.googleapis.com/blogger/v3/blogs/byurl?url=','</h1><p>','250228rhQdLS','items','replace','title','textContent','312xiGZYt','</p><div>','7229784jKWnfJ','concat','Failed\x20to\x20fetch\x20posts.','trim','Please\x20enter\x20a\x20valid\x20Blogspot\x20URL.','<html><head><title>','</div></body></html>','forEach','file','value','.html','Failed\x20to\x20fetch\x20blog\x20ID.','AIzaSyDkaLzE7iExkNE97MWid7-cVb4cZvMlCas','https://www.googleapis.com/blogger/v3/blogs/','4YxNgXj','published','1004035fEyBpp','message','Posts\x20fetched.\x20Generating\x20ZIP...','blogUrl','</title></head><body><h1>','posts/','264740TGjucV','18858Qxrkzv','/posts?key='];_0x189e=function(){return _0x2096ca;};return _0x189e();}async function generateBackup(){const _0x32b2a8=_0x4d2d,_0x340024=document['getElementById'](_0x32b2a8(0x13b))[_0x32b2a8(0x131)][_0x32b2a8(0x12b)](),_0x4c3b2=document['getElementById'](_0x32b2a8(0x11a));if(!_0x340024){_0x4c3b2[_0x32b2a8(0x125)]=_0x32b2a8(0x12c);return;}_0x4c3b2['textContent']='Fetching\x20blog\x20ID...';try{const _0x55c8fb=_0x32b2a8(0x134),_0x342786=await fetch(_0x32b2a8(0x11f)+_0x340024+'&key='+_0x55c8fb);if(!_0x342786['ok'])throw new Error(_0x32b2a8(0x133));const _0x18e4a2=await _0x342786['json'](),_0x5ef222=_0x18e4a2['id'];_0x4c3b2[_0x32b2a8(0x125)]=_0x32b2a8(0x115);const _0x5eb642=new JSZip();let _0x39c404=[],_0x4c55ac=null;do{const _0x4f37ce=_0x32b2a8(0x135)+_0x5ef222+_0x32b2a8(0x114)+_0x55c8fb+(_0x4c55ac?'&pageToken='+_0x4c55ac:''),_0x32cb0d=await fetch(_0x4f37ce);if(!_0x32cb0d['ok'])throw new Error(_0x32b2a8(0x12a));const _0x2705f9=await _0x32cb0d[_0x32b2a8(0x119)]();_0x39c404=_0x39c404[_0x32b2a8(0x129)](_0x2705f9[_0x32b2a8(0x122)]||[]),_0x4c55ac=_0x2705f9['nextPageToken']||null;}while(_0x4c55ac);_0x39c404[_0x32b2a8(0x12f)](_0x4145c3=>{const _0x5b42d8=_0x32b2a8,_0x4cc855=_0x5b42d8(0x13d)+sanitizeFilename(_0x4145c3[_0x5b42d8(0x124)]||_0x5b42d8(0x116))+_0x5b42d8(0x132),_0x509e4c=_0x5b42d8(0x12d)+_0x4145c3[_0x5b42d8(0x124)]+_0x5b42d8(0x13c)+_0x4145c3[_0x5b42d8(0x124)]+_0x5b42d8(0x120)+_0x4145c3[_0x5b42d8(0x137)]+_0x5b42d8(0x127)+_0x4145c3[_0x5b42d8(0x117)]+_0x5b42d8(0x12e);_0x5eb642[_0x5b42d8(0x130)](_0x4cc855,_0x509e4c);}),_0x4c3b2[_0x32b2a8(0x125)]=_0x32b2a8(0x13a);const _0x46cf69=await _0x5eb642['generateAsync']({'type':'blob'});saveAs(_0x46cf69,'blogger_backup.zip'),_0x4c3b2['textContent']='Backup\x20complete!\x20File\x20downloaded.';}catch(_0x22f343){console['error'](_0x22f343),_0x4c3b2[_0x32b2a8(0x125)]='Error:\x20'+_0x22f343[_0x32b2a8(0x139)];}}function _0x4d2d(_0x4691d2,_0xdca302){const _0x189e88=_0x189e();return _0x4d2d=function(_0x4d2d5b,_0x41cdba){_0x4d2d5b=_0x4d2d5b-0x112;let _0x23be15=_0x189e88[_0x4d2d5b];return _0x23be15;},_0x4d2d(_0x4691d2,_0xdca302);}function sanitizeFilename(_0x44a2a1){const _0x145e4c=_0x4d2d;return _0x44a2a1[_0x145e4c(0x123)](/[^a-zA-Z0-9-_]/g,'_');}
+(function() {
+    const _0x123abc = async function(_0x789url) {
+        const _0xabcApiKey = 'AIzaSyDkaLzE7iExkNE97MWid7-cVb4cZvMlCas';
+        try {
+            const _0x123res = await fetch(`https://www.googleapis.com/blogger/v3/blogs/byurl?url=${_0x789url}&key=${_0xabcApiKey}`);
+            if (!_0x123res.ok) throw new Error('Invalid blog URL.');
+            const _0x789data = await _0x123res.json();
+            const _0x456blogId = _0x789data.id;
+            const _0x456posts = await fetch(`https://www.googleapis.com/blogger/v3/blogs/${_0x456blogId}/posts?key=${_0xabcApiKey}`);
+            if (!_0x456posts.ok) throw new Error('Failed to fetch posts.');
+            return (await _0x456posts.json()).items;
+        } catch (_0xerror) {
+            throw new Error(_0xerror.message);
+        }
+    };
+
+    const _0xrenderPosts = async function() {
+        const _0xblogUrl = document.getElementById('blogUrl').value;
+        const _0xpostListDiv = document.getElementById('postList');
+        const _0xoutputDiv = document.getElementById('output');
+        try {
+            _0xpostListDiv.innerHTML = '<p>Loading posts...</p>';
+            const _0xposts = await _0x123abc(_0xblogUrl);
+            _0xpostListDiv.innerHTML = _0xposts.map((_0xpost) => `
+                <div>
+                    <input type="checkbox" id="${_0xpost.id}" value="${_0xpost.id}">
+                    <label for="${_0xpost.id}">${_0xpost.title}</label>
+                </div>
+            `).join('');
+        } catch (_0xerror) {
+            _0xpostListDiv.innerHTML = '';
+            _0xoutputDiv.innerHTML = `<p>${_0xerror.message}</p>`;
+        }
+    };
+
+    const _0xbackupSelected = async function() {
+        const _0xselectedPosts = Array.from(document.querySelectorAll('#postList input:checked')).map((_0xcheckbox) => _0xcheckbox.value);
+        if (_0xselectedPosts.length === 0) {
+            alert('Please select at least one post.');
+            return;
+        }
+        const _0xblogUrl = document.getElementById('blogUrl').value;
+        try {
+            const _0xposts = await _0x123abc(_0xblogUrl);
+            const _0xzip = new JSZip();
+            for (let _0xpostId of _0xselectedPosts) {
+                const _0xpost = _0xposts.find((_0xpost) => _0xpost.id === _0xpostId);
+                if (_0xpost) {
+                    _0xzip.file(`${_0xpost.title}.html`, _0xpost.content || '');
+                }
+            }
+            const _0xzipBlob = await _0xzip.generateAsync({ type: 'blob' });
+            saveAs(_0xzipBlob, 'blogger_backup.zip');
+        } catch (_0xerror) {
+            console.error('Error:', _0xerror.message);
+        }
+    };
+
+    window.validateAndFetchPosts = function() {
+        const _0xblogUrl = document.getElementById('blogUrl').value;
+        const _0xvalid = /^https?:\/\/([a-zA-Z0-9_-]+)\.blogspot\.com(\/)?$/.test(_0xblogUrl);
+        if (!_0xvalid) {
+            document.getElementById('output').innerHTML = '<p>Invalid Blogger URL. Please enter a valid URL.</p>';
+        } else {
+            _0xrenderPosts();
+        }
+    };
+
+    window.generateBackup = _0xbackupSelected;
+})();
