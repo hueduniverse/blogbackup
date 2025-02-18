@@ -3,10 +3,15 @@ let posts = [];
 
 // Fetch posts from Blogger API
 async function fetchPosts() {
-    const blogUrl = document.getElementById("blogUrl").value;
+    const blogUrl = document.getElementById("blogUrl").value.trim();
     const outputDiv = document.getElementById("output");
     const postListDiv = document.getElementById("postList");
     const backupButton = document.getElementById("backupButton");
+
+    // Clear previous data
+    outputDiv.innerHTML = "";
+    postListDiv.innerHTML = "";
+    backupButton.style.display = "none";
 
     if (!/^https?:\/\/[a-zA-Z0-9-]+\.blogspot\.com/.test(blogUrl)) {
         outputDiv.innerHTML = "Invalid Blogger URL. Please enter a valid URL.";
@@ -14,18 +19,16 @@ async function fetchPosts() {
     }
 
     outputDiv.innerHTML = "Fetching posts...";
-    postListDiv.innerHTML = "";
-    backupButton.style.display = "none";
 
     try {
         // Fetch Blog ID
         const blogResponse = await fetch(`https://www.googleapis.com/blogger/v3/blogs/byurl?url=${blogUrl}&key=${API_KEY}`);
-        if (!blogResponse.ok) throw new Error("Invalid Blogger URL");
+        if (!blogResponse.ok) throw new Error("Failed to fetch the blog. Check your URL or API Key.");
         const blogData = await blogResponse.json();
 
         // Fetch Posts
         const postsResponse = await fetch(`https://www.googleapis.com/blogger/v3/blogs/${blogData.id}/posts?key=${API_KEY}`);
-        if (!postsResponse.ok) throw new Error("Failed to fetch posts");
+        if (!postsResponse.ok) throw new Error("Failed to fetch posts. Please try again later.");
         const postData = await postsResponse.json();
 
         if (postData.items && postData.items.length > 0) {
@@ -40,7 +43,7 @@ async function fetchPosts() {
         }
     } catch (error) {
         console.error(error);
-        outputDiv.innerHTML = error.message;
+        outputDiv.innerHTML = `Error: ${error.message}`;
     }
 }
 
